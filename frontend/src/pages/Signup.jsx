@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Signup() {
+  localStorage.removeItem("token");
   const [signup, signupResponse] = useSignUpMutation();
   const navigate = useNavigate();
   const { isLoading, isSuccess, isError, error, data } = signupResponse;
@@ -33,7 +34,6 @@ function Signup() {
     }
   }, [isSuccess, navigate, data?.token]);
 
-  console.log(data);
   return (
     <Form
       className="d-flex flex-column vh-100 align-items-center justify-content-center"
