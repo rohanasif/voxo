@@ -3,10 +3,22 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { useNavigate } from "react-router-dom";
+import { useSignOutMutation } from "../slice/apiSlice";
 
 function NavBar() {
+  const [signout, signoutResponse] = useSignOutMutation();
+  const navigate = useNavigate();
+  const token = JSON.parse(localStorage.getItem("token"));
+  const handleClick = () => {
+    if (token) {
+      signout(token);
+      localStorage.removeItem("token");
+    }
+    navigate("/signin");
+  };
   return (
-    <Navbar expand="lg" className="bg-dark" variant="dark" fixed="top">
+    <Navbar expand="lg" className="bg-dark" variant="dark">
       <Container>
         <Navbar.Brand as={Link} to="/">
           Voxo
@@ -25,11 +37,11 @@ function NavBar() {
                 Product 3
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link as={Link} to="/signup">
+            <Nav.Link as={Link} to="/signup" hidden={token}>
               Sign Up
             </Nav.Link>
-            <Nav.Link as={Link} to="/signin">
-              Sign In
+            <Nav.Link onClick={handleClick}>
+              {token ? "Signout" : "Signin"}
             </Nav.Link>
             <Nav.Link as={Link} to="/cart">
               Cart

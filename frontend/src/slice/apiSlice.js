@@ -22,11 +22,12 @@ export const authApi = createApi({
       invalidatesTags: ["users", "currentUser"],
     }),
     signOut: builder.mutation({
-      query: (user) => ({
+      query: (token) => ({
         url: "/signout",
         method: "POST",
-        body: user,
+        body: { token },
       }),
+      invalidatesTags: ["users", "currentUser"],
     }),
   }),
 });
