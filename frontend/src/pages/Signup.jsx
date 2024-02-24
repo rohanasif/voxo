@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import { useSignUpMutation } from "../slice/apiSlice";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signUp } from "../slice/authSlice";
+import { v4 as uuidv4 } from "uuid";
 
 function Signup() {
   localStorage.removeItem("token");
+  const dispatch = useDispatch();
   const [signup, signupResponse] = useSignUpMutation();
   const navigate = useNavigate();
   const { isLoading, isSuccess, isError, error, data } = signupResponse;
@@ -15,6 +19,7 @@ function Signup() {
     email: "",
     password: "",
     confirmPassword: "",
+    id: uuidv4(),
   });
   const handleChange = (e) => {
     setFormData({
@@ -25,6 +30,7 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     signup(formData);
+    dispatch(signUp(formData));
   };
 
   useEffect(() => {

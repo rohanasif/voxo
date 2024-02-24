@@ -3,8 +3,11 @@ import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignInMutation } from "../slice/apiSlice";
 import { useEffect, useState } from "react";
+import { signIn } from "../slice/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function Signin() {
+  const dispatch = useDispatch();
   const [signin, signinResponse] = useSignInMutation();
   const navigate = useNavigate();
   const { isLoading, isSuccess, isError, error, data } = signinResponse;
@@ -21,6 +24,7 @@ function Signin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     signin(formData);
+    dispatch(signIn(formData.id));
   };
 
   const token = JSON.parse(localStorage.getItem("token"));
