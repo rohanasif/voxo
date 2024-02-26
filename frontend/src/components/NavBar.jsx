@@ -5,14 +5,18 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router-dom";
 import { useSignOutMutation } from "../slice/apiSlice";
+import { signOut } from "../slice/authSlice";
+import { useDispatch } from "react-redux";
 
 function NavBar() {
-  const [signout, signoutResponse] = useSignOutMutation();
+  const dispatch = useDispatch();
+  const [signout] = useSignOutMutation();
   const navigate = useNavigate();
   const token = JSON.parse(localStorage.getItem("token"));
   const handleClick = () => {
     if (token) {
       signout(token);
+      dispatch(signOut());
       localStorage.removeItem("token");
     }
     navigate("/signin");

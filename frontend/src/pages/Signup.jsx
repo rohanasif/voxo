@@ -36,7 +36,7 @@ function Signup() {
   useEffect(() => {
     if (isSuccess) {
       localStorage.setItem("token", JSON.stringify(data?.token));
-      navigate("/signin");
+      navigate("/");
     }
   }, [isSuccess, navigate, data?.token]);
 

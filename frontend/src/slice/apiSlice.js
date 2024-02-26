@@ -5,6 +5,13 @@ export const authApi = createApi({
   tagTypes: ["currentUser", "users"],
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000/api/v1/auth" }),
   endpoints: (builder) => ({
+    getUsers: builder.query({
+      query: () => ({
+        url: "/signup",
+        method: "GET",
+      }),
+      providesTags: ["users"],
+    }),
     signUp: builder.mutation({
       query: (user) => ({
         url: "/signup",
@@ -32,5 +39,9 @@ export const authApi = createApi({
   }),
 });
 
-export const { useSignUpMutation, useSignInMutation, useSignOutMutation } =
-  authApi;
+export const {
+  useGetUsersQuery,
+  useSignUpMutation,
+  useSignInMutation,
+  useSignOutMutation,
+} = authApi;

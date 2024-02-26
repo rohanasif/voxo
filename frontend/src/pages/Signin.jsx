@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSignInMutation } from "../slice/apiSlice";
 import { useEffect, useState } from "react";
 import { signIn } from "../slice/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function Signin() {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ function Signin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     signin(formData);
-    dispatch(signIn(formData.id));
+    dispatch(signIn(formData));
   };
 
   const token = JSON.parse(localStorage.getItem("token"));

@@ -19,17 +19,16 @@ const authSlice = createSlice({
     signIn: (state, action) => {
       return {
         ...state,
-        users: state.users.map((user) =>
-          user.id === action.payload.id ? { ...user, isLoggedIn: true } : user
-        ),
+        currentUser: {
+          ...action.payload,
+          isLoggedIn: true,
+        },
       };
     },
     signOut: (state, action) => {
       return {
         ...state,
-        users: state.users.map((user) =>
-          user.id === action.payload.id ? { ...user, isLoggedIn: false } : user
-        ),
+        currentUser: null,
       };
     },
   },
