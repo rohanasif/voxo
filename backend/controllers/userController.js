@@ -14,7 +14,6 @@ export const getUsers = asyncHandler(async (req, res) => {
       res.json({ message: "No users found" });
     }
   } catch (error) {
-    res.status(500);
     res.json({ message: error.message });
   }
 });
