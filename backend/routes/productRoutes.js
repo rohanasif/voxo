@@ -5,14 +5,14 @@ import {
   addProduct,
   updateProduct,
   deleteProduct,
-} from "../controllers/productController";
+} from "../controllers/productController.js";
 
 const router = express.Router();
 
-router.get("/products", getAllProducts);
-router.post("/products", addProduct);
-router.get("/products/:id", getProductById);
-router.put("/products/:id", updateProduct);
-router.delete("/products/:id", deleteProduct);
+router.get("/", getAllProducts);
+router.post("/", addProduct);
+router.get("/:id", getProductById);
+router.put("/:id", updateProduct);
+router.delete("/:id", deleteProduct);
 
 export default router;

@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Product from "../models/productModel";
-import Rating from "../models/ratingModel";
+import Product from "../models/productModel.js";
 
 export const getAllProducts = asyncHandler(async (req, res) => {
   try {
@@ -20,7 +19,7 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 export const getProductById = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findById(id);
+    const product = await Product.findOne({ id });
     if (product) {
       res.status(200);
       res.json(product);
@@ -55,10 +54,7 @@ export const addProduct = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("This product is already added");
     }
-    const rating = await Rating.create({
-      rate,
-      count,
-    });
+    const rating = { rate, count };
     const product = await Product.create({
       id,
       title,
@@ -92,7 +88,8 @@ export const addProduct = asyncHandler(async (req, res) => {
 export const updateProduct = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, price, description, category, image, rating } = req.body;
+    const { title, price, description, category, image, rate, count } =
+      req.body;
     if (
       !id ||
       !title ||
@@ -100,13 +97,15 @@ export const updateProduct = asyncHandler(async (req, res) => {
       !description ||
       !category ||
       !image ||
-      !rating
+      !rate ||
+      !count
     ) {
       res.status(400);
       throw new Error("All fields are required");
     }
-    const product = await Product.findByIdAndUpdate(
-      id,
+    const rating = { rate, count };
+    const product = await Product.findOneAndUpdate(
+      {id},
       {
         title,
         price,
@@ -125,7 +124,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
 export const deleteProduct = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByIdAndDelete(id);
+    const product = await Product.findOne({ id });
     if (product) {
       res.status(200);
       res.json({ message: "Product deleted successfully" });
